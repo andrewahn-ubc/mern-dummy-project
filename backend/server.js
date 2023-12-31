@@ -10,7 +10,7 @@ const app = express()
 // the line below checks if any data is being sent to the server 
 // and if there is, it attaches that data to the "req" object! 
 app.use(express.json())
-
+    
 app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
