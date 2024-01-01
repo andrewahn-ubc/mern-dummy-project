@@ -1,5 +1,7 @@
 const express = require("express")
-// does order matter in the line below? because name doesn't (for single variable exports)
+// question: does order matter in the line below? Do the names matter?
+// answer: NO, the order does not matter. Thus we know that the program depends on the names, so the
+// NAMES DO matter - the names likely matter for all arrays/sets.
 const {
     createWorkout, 
     getWorkouts,

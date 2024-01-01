@@ -41,8 +41,10 @@ const createWorkout = async (req, res) => {
 
 // update a workout
 
+// the order in which the functions are listed below does NOT matter, since we will be matching 
+// them by name when we import them anyways.
 module.exports = {
-    createWorkout,
     getWorkouts,
-    getWorkout
+    getWorkout,
+    createWorkout
 }
