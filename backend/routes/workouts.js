@@ -1,12 +1,16 @@
 const express = require("express")
-const Workout = require('../models/workoutModel')
+// does order matter in the line below? because name doesn't (for single variable exports)
+const {
+    createWorkout, 
+    getWorkouts
+} = require('../controllers/workoutController')
 
 const router = express.Router()
 
+
+
 // GET all workouts
-router.get('/', (req, res) => {
-    res.json({mssg: 'GET all workouts'})
-})
+router.get('/', getWorkouts)
 
 // GET a single workout
 router.get('/:id', (req, res) => {
@@ -14,17 +18,7 @@ router.get('/:id', (req, res) => {
 })
 
 // POST a new workout
-router.post('/', async (req, res) => {
-    // in the line below, the variable names DO matter, but their order does not.   
-    const {reps, title, load} = req.body
-
-    try {
-        const workout = await Workout.create({title, reps, load})
-        res.status(200).json(workout)
-    } catch (error) {
-        res.status(400).json({error: error.message})
-    } 
-})
+router.post('/', createWorkout)
 
 // DELETE a workout
 router.delete('/:id', (req, res) => {
