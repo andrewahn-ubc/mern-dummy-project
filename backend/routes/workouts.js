@@ -1,5 +1,5 @@
 const express = require("express")
-const Workout = require('../models/workout')
+const Workout = require('../models/workoutModel')
 
 const router = express.Router()
 
@@ -14,9 +14,16 @@ router.get('/:id', (req, res) => {
 })
 
 // POST a new workout
-router.post('/', (req, res) => {
-    const {title, reps, load} = req.body
-    res.json({mssg: 'POST a new workout'})
+router.post('/', async (req, res) => {
+    // in the line below, the variable names DO matter, but their order does not.   
+    const {reps, title, load} = req.body
+
+    try {
+        const workout = await Workout.create({title, reps, load})
+        res.status(200).json(workout)
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    } 
 })
 
 // DELETE a workout
