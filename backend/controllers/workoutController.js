@@ -1,4 +1,5 @@
 const Workout = require('../models/workoutModel')
+const mongoose = require('mongoose')
 
 // get all workouts
 const getWorkouts = async (req, res) => {
@@ -10,6 +11,10 @@ const getWorkouts = async (req, res) => {
 // get one workout
 const getWorkout = async (req, res) => {
     const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: "Invalid ID"})
+    }
 
     const workout = await Workout.findById(id)
 
@@ -37,14 +42,54 @@ const createWorkout = async (req, res) => {
 }
 
 // delete a workout
+const deleteWorkout = async (req, res) => {
+    const { id } = req.params
 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: "Invalid ID"})
+    }
+
+    const workout = await Workout.findOneAndDelete({_id: id})
+
+    if (!workout) {
+        return res.status(404).json({error: "No such workout"})
+    }   
+
+    res.status(200).json(workout)
+}
 
 // update a workout
+const updateWorkout = async (req, res) => {
+    const { id } = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({error: "Invalid ID"})
+    }
+
+    // findOneAndUpdate() takes in two arguments: the "find" criteria and the object representing the 
+    // update we want to make
+    // question: can you just put req.body as the second argument?
+    // note: "workout" below will be equal to the PRE-UPDATE document, NOT the new, updated document.
+    const workout = await Workout.findOneAndUpdate({_id: id}, {
+        // the ... in front of req.body spreads out the elements in req.body into the outer curly brackets.
+        ...req.body 
+    })
+
+    if (!workout) {
+        return res.status(404).json({error: "No such workout"})
+    }   
+
+    const workout1 = await Workout.findById(id)
+
+    res.status(200).json(workout1)
+}
 
 // the order in which the functions are listed below does NOT matter, since we will be matching 
 // them by name when we import them anyways.
 module.exports = {
-    getWorkouts,
+    createWorkout,
     getWorkout,
-    createWorkout
+    getWorkouts,
+    deleteWorkout,
+    updateWorkout
 }
