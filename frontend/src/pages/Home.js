@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 // components
 import WorkoutDetails from '../components/WorkoutDetails'
+import WorkoutForm from '../components/WorkoutForm'
 
 const Home = () => {
     const [workouts, setWorkouts] = useState(null)
@@ -11,6 +12,7 @@ const Home = () => {
         // and call it in the outer function
         const fetchWorkouts = async () => {
             // the fetch() function returns the "response" object when we run a GET request at the given route.
+            // WHEN WE DON'T SPECIFY THE METHOD, fetch() automatically runs a GET request.
             const response = await fetch('/api/workouts')
             // response is now an array containing every workout.
             const json = await response.json()
@@ -36,6 +38,8 @@ const Home = () => {
                     // each one. It might not always be necessary, but it's good practice!
                 ))}
             </div>
+
+            <WorkoutForm />
         </div>
     )
 }
