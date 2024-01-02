@@ -2,6 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
 
 /* layout */
+/* the :root {} section outlines the variables */
 :root {
   --primary: #1aac83;
   --error: #e7195a;
@@ -31,5 +32,44 @@ header a {
   max-width: 1400px;
   padding: 20px;
   margin: 0 auto;
+}
+
+/* homepage */
+.home {
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  gap: 100px;
+}
+.workout-details {
+  background: #fff;
+  border-radius: 4px;
+  margin: 20px auto;
+  padding: 20px;
+  position: relative;
+  /* box shadow is really cool!!!! */
+  box-shadow: 4px 4px 5px rgba(0,0,0,0.08);
+}
+
+/* we can specify generic JSX tags that are inside a specific class with the syntax below! */
+.workout-details h4 {
+  margin: 0 0 10px 0;
+  font-size: 1.2em;
+  /* in order to use a variable, we must wrap it in var() */
+  color: var(--primary);
+}
+.workout-details p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #555;
+}
+.workout-details span {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+  background: #f1f1f1;
+  padding: 6px;
+  border-radius: 50%;
+  color: #333;
 }
 
