@@ -1,4 +1,6 @@
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext"
+// date fns function - tells us how many days ago a certain time was.
+import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
 // in the "arguments" section below, we could've just passed in "props" and then accessed "workout" 
 // using props.workout, but instead we have DESTRUCTURED the props argument to make our code more readable.
@@ -27,9 +29,11 @@ const WorkoutDetails = ({ workout }) => {
             {/* notice how we can nest JSX tags inside each other */}
             <p><strong>Load (kg):</strong> {workout.load}</p>
             <p><strong>Reps:</strong> {workout.reps}</p>
-            <p>{workout.createdAt}</p>
+            {/* the "addSuffix: true" just adds "ago", to return something like "2 days ago" */}
+            <p>{formatDistanceToNow(new Date(workout.createdAt), { addSuffix: true })}</p>
             {/* MEMORIZE the className below. The child text must be the corresponding keyword for your
             desired icon. "Delete" happens to be the keyword for the trash can. */}
+            {/* GOOGLE: "google fonts material symbols" */}
             <span className='material-symbols-outlined' onClick={handleClick}>Delete</span>
         </div>
     )
