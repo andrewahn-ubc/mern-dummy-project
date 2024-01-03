@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { useWorkoutsContext } from "../hooks/useWorkoutsContext"
 
 const WorkoutForm = () => {
     // we want to create a state for each of the properties of the new workout
@@ -7,6 +8,8 @@ const WorkoutForm = () => {
     const [load, setLoad] = useState('')
     const [reps, setReps] = useState('')
     const [error, setError] = useState(null)
+
+    const { dispatch } = useWorkoutsContext()
 
     const handleSubmit = async (e) => {
         // the default action of "submit" is refreshing the page. We don't want the page to refresh,
@@ -42,6 +45,8 @@ const WorkoutForm = () => {
             setTitle('')
             setLoad('')
             setReps('')
+
+            dispatch({type: 'CREATE_WORKOUT', payload: json})
         }
     }
 

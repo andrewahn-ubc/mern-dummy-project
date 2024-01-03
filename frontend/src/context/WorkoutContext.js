@@ -26,7 +26,15 @@ export const workoutsReducer = (state, action) => {
         case 'CREATE_WORKOUT':
             return {
                 // the ... "spreads" the inner contents of the "state.workouts" array.
-                workouts: [action.paylod, ...state.workouts]
+                workouts: [action.payload, ...state.workouts]
+            }
+        case 'DELETE_WORKOUT':
+            return {
+                // we want to compare id's and not the entire workouts themselves because comparing
+                // objects might not always work due to memory allocation.
+                // note: in the filter function, you want to input a function that will return true for the 
+                //       items you want to keep, and false for the items you want to remove.
+                workouts: state.workouts.filter((w) => w._id !== action.payload._id)
             }
         default:
             return state
@@ -44,7 +52,7 @@ export const WorkoutsContextProvider = ({ children }) => {
         // Whatever is wrapped inside the Provider will have access to the context of that provider.
         // CRUCIAL: the "value" property below is the HEART of the context hook - this is where we specify 
         //          what is actually being passed town our component tree.
-        <WorkoutsContext.Provider value={{state, dispatch}} >
+        <WorkoutsContext.Provider value={{...state, dispatch}} >
             {/* we pass in BOTH the state and dispatch property as a single object so that
              every component in our application has access to 1) the current state and 2) the dispatch
              function that will allow it it to manipulate the state.*/}
