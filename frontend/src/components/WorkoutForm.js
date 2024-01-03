@@ -8,6 +8,7 @@ const WorkoutForm = () => {
     const [load, setLoad] = useState('')
     const [reps, setReps] = useState('')
     const [error, setError] = useState(null)
+    const [emptyFields, setEmptyFields] = useState([])
 
     const { dispatch } = useWorkoutsContext()
 
@@ -37,6 +38,7 @@ const WorkoutForm = () => {
         // response.ok tells us whether there was an error in the fetch request or not.
         if (!response.ok) {
             setError(json.error)
+            setEmptyFields(json.emptyFields)
         }
 
         if (response.ok) {
@@ -45,6 +47,8 @@ const WorkoutForm = () => {
             setTitle('')
             setLoad('')
             setReps('')
+
+            setEmptyFields([])
 
             dispatch({type: 'CREATE_WORKOUT', payload: json})
         }
@@ -58,20 +62,26 @@ const WorkoutForm = () => {
             <input
             type="text" 
             onChange={(e) => {setTitle(e.target.value)}}
-            value={title} />
+            value={title} 
+            // the empty string className is just the same as not having a className
+            className={emptyFields.includes('title') ? 'error' : ''} />
             {/* value={title} ensures two-way data binding. If we change the title externally, the input matches that change */}
             
             <label>Load (kg): </label>
             <input
             type="number" 
             onChange={(e) => {setLoad(e.target.value)}}
-            value={load} />
+            value={load}
+            // PRO TIP: The way you can vary the appearance of a component is by making it take on
+            //          various classNames!! This is easy to do with the ternary operator below.
+            className={emptyFields.includes('load') ? 'error' : ''} />
             
             <label>Repetitions: </label>
             <input
             type="number" 
             onChange={(e) => {setReps(e.target.value)}}
-            value={reps} />
+            value={reps}
+            className={emptyFields.includes('reps') ? 'error' : ''} />
 
             {/* question: does pressing the button automatically fire the "onSubmit" function? 
             What if there are multiple buttons for different purposes? */}

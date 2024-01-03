@@ -32,6 +32,29 @@ const createWorkout = async (req, res) => {
     // in the line below, the variable names DO matter, but their order does not.   
     const {reps, title, load} = req.body
 
+    // the only errors that can occur is when parts of the form aren't filled in, so we'll detect which
+    // elements are missing so that we can create a tailored error message.
+    let emptyFields = []
+
+    // !title is true when title is empty, ie. null, ie. false
+    if (!title) {
+        // "push" is how we add an element to an array in JavaScript
+        emptyFields.push('title')
+    } 
+    if (!reps) {
+        emptyFields.push('reps')
+    } 
+    if (!load) {
+        emptyFields.push('load')
+    } 
+
+    if (emptyFields.length > 0) {
+        // we can return here because createWorkout will run again when the user presses the "submit"
+        // button again, since the onSubmit function will run again, meaning we will run another fetch POST request
+        return res.status(400).json({ error: 'Please fill in all of the fields', emptyFields})
+    }
+
+
     // add a workout document to db
     try {
         const workout = await Workout.create({title, reps, load})

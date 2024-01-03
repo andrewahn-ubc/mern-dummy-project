@@ -28,7 +28,9 @@ const WorkoutDetails = ({ workout }) => {
             <p><strong>Load (kg):</strong> {workout.load}</p>
             <p><strong>Reps:</strong> {workout.reps}</p>
             <p>{workout.createdAt}</p>
-            <span onClick={handleClick} >Delete</span>
+            {/* MEMORIZE the className below. The child text must be the corresponding keyword for your
+            desired icon. "Delete" happens to be the keyword for the trash can. */}
+            <span className='material-symbols-outlined' onClick={handleClick}>Delete</span>
         </div>
     )
 }
