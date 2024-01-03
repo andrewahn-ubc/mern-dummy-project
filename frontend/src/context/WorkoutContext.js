@@ -1,13 +1,35 @@
 import { createContext, useReducer } from 'react'
 
+// Why are we even using React Context here? 
+
+// When we add a workout to the database, our local 'workouts' variable is not automatically updated
+// because we do not automatically run a fetch request, and doing so would be super costly anyways.
+
+// The first instinct might be to update the 'workouts' state in Home.js every time that a new 
+// workout is added in the WorkoutForm.js file, but 'workouts' is a local variable inside Home.js
+// thus we cannot access it in the WorkoutForm.js file. We need a way to maintain data ACROSS multiple
+// components in our program. This is where React Context comes in.
+
+// To make sure that our local workouts variable is kept in sync with our database, we  
+// created a React Context that will keep track of every workout we've added to the database, and allow
+// us to access it across multiple components (most notably the WorkoutForm and the Home page).
+
 export const WorkoutsContext = createContext()
 
+// The state is going to be an object containing an array (called 'workouts') containing all of the workouts.
 export const workoutsReducer = (state, action) => {
     switch(action.type) {
         case 'SET_WORKOUTS':
             return {
                 workouts: action.payload
             }
+        case 'CREATE_WORKOUT':
+            return {
+                // the ... "spreads" the inner contents of the "state.workouts" array.
+                workouts: [action.paylod, ...state.workouts]
+            }
+        default:
+            return state
     }
 }
 
@@ -20,11 +42,16 @@ export const WorkoutsContextProvider = ({ children }) => {
 
     return (
         // Whatever is wrapped inside the Provider will have access to the context of that provider.
-        <WorkoutsContext.Provider value={} >
+        // CRUCIAL: the "value" property below is the HEART of the context hook - this is where we specify 
+        //          what is actually being passed town our component tree.
+        <WorkoutsContext.Provider value={{state, dispatch}} >
+            {/* we pass in BOTH the state and dispatch property as a single object so that
+             every component in our application has access to 1) the current state and 2) the dispatch
+             function that will allow it it to manipulate the state.*/}
             { children }
         </WorkoutsContext.Provider>
     )
-}
+} 
 
 
 
