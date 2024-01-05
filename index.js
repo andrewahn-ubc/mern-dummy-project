@@ -1,4 +1,5 @@
 require('dotenv').config()
+const port = process.env.PORT || 5000;
 
 const express = require('express')
 const mongoose = require('mongoose')
@@ -32,8 +33,8 @@ app.use('/api/workouts', workoutRoutes)
 mongoose.connect(process.env.MONGO_URI)
     .then(() => {
         // listen for requests through a certain port number
-        app.listen(process.env.PORT, () => {
-        console.log("connected to db & listening on port", process.env.PORT)
+        app.listen(port, () => {
+        console.log("connected to db & listening on port", port)
         })
     })
     .catch((error) => {
