@@ -2,6 +2,7 @@ require('dotenv').config()
 const port = process.env.PORT || 5000;
 
 const express = require('express')
+const favicon = require('express-favicon');
 const mongoose = require('mongoose')
 const workoutRoutes = require('./routes/route1')
 
@@ -20,6 +21,8 @@ const app = express()
 // the line below checks if any data is being sent to the server 
 // and if there is, it attaches that data to the "req" object! 
 app.use(express.json())
+
+app.use(favicon('./client' + '/public/favicon.png'));
     
 app.use((req, res, next) => {
     console.log(req.path, req.method)
