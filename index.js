@@ -22,7 +22,7 @@ const app = express()
 // and if there is, it attaches that data to the "req" object! 
 app.use(express.json())
 
-app.use(favicon('./client' + '/public/favicon.png'));
+app.use(favicon('./client' + '/public/favicon.ico'));
     
 app.use((req, res, next) => {
     console.log(req.path, req.method)
